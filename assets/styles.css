@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Open+Sans:wght@300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+[data-testid="stBaseButton-headerNoPadding"] {
+    display: none;
+}
+/*
+[data-testid="text_input_1"] {
+    width: 50% !important;
+}
+
+[data-testid="text_input_2"] {
+    width: 50% !important;
+}
+*/
+[data-testid="stTextInputRootElement"] {
+    width: 50% !important;
+    padding-right: 0px !important;
+}
+
+body {
+    background-color: #f4f4f4;
+    font-family: "Inter", "Open Sans", sans-serif;
+}
+
+.main-header {
+    text-align: center;
+    color: #2e604a;
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-family: "Poppins";
+    letter-spacing: 1px;
+}
+
+.st-key-login-container {
+    width: 60%;
+    margin: auto;
+    background-color: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.login-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+/*.st-af st-ah st-bb st-ar st-as st-ax st-ay st-az st-b0 st-b1 st-b2 st-bc st-b7 {
+    width:100% !important
+}*/
+
+.st-ah {
+    width: 6-0% !important;
+    padding-right: 0px !important;
+}
+
+.stTextInput>div>div>input {
+    text-align: left;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    /*width: 90%;*/
+    font-family: "Open Sans", sans-serif;
+}
+
+[data-testid="stTextInputRootElement"] {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding-right: 0px;
+}
+
+.stButton {
+    /*stBaseButton-secondary*/
+    width: 50% !important;
+}
+
+.stButton>button {
+    width: 100% !important;
+    background-color: #2e604a;
+    color: white;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+    font-family: "Inter", sans-serif;
+}
+
+.stButton>button:hover {
+    background-color: #1f4235;
+    color: white;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.register-link {
+    width: 50%;
+    margin-top: 15px;
+    font-size: 15px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.register-link a {
+    color: #2e604a;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+    color: #1f4235;
+}

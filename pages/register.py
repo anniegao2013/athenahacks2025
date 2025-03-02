@@ -39,46 +39,17 @@ st.markdown(
         [data-testid="stBaseButton-headerNoPadding"] {
             display: none
         }
-        body {
-            background-color: white;
-        }
-        .main-header {
-            text-align: left;
-            color: black;
-            font-size: 40px;
-            font-weight: bold;
-            border-radius: 10px;
-        }
-        .login-container {
-            width: 40%;
-            margin: auto;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
         .stTextInput>div>div>input {
-            text-align: center;
-        }
-        .stButton>button {
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 5px;
-            padding: 10px;
-        }
-        .register-link {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .register-link a {
-            color: #4CAF50;
-            text-decoration: none;
+            text-align: left !important;
         }
     </style>
     """,
     unsafe_allow_html=True
 )
+
+# Load external CSS file
+with open("assets/styles.css") as css_file:
+    st.markdown(f"<style>{css_file.read()}</style>", unsafe_allow_html=True)
 
 st.markdown("<div class='main-header'>Register</div>", unsafe_allow_html=True)
 st.markdown("<div class='login-container>", unsafe_allow_html=True)

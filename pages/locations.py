@@ -1,6 +1,10 @@
 import streamlit as st
 import pydeck as pdk
 
+# Load external CSS file
+with open("assets/otherstyles.css") as css_file:
+    st.markdown(f"<style>{css_file.read()}</style>", unsafe_allow_html=True)
+
 #change navbar - this must be in every page but login.py and register.py
 st.markdown(
     """
@@ -15,6 +19,9 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+#Title
+st.markdown("<div class='main-header'>Locations</div>", unsafe_allow_html=True)
 
 plant_ranges = {
      "Bush allamanda": [(-26.55, -46.63), (-34.61, -58.38), (-27.48, -58.83)],

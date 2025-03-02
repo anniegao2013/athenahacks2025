@@ -2,6 +2,10 @@ import streamlit as st
 import google.generativeai as genai
 import os
 
+# Load external CSS file
+with open("assets/otherstyles.css") as css_file:
+    st.markdown(f"<style>{css_file.read()}</style>", unsafe_allow_html=True)
+
 #change navbar - this must be in every page but login.py and register.py
 st.markdown(
     """
@@ -23,7 +27,8 @@ genai.configure(api_key=GOOGLE_API_KEY)
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-st.markdown("<h1 style='text-align: center; color: black;'>Gemini Chatbot</h1>", unsafe_allow_html=True)
+st.markdown("<div class='main-header'>Gemini Chatbot</div>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: black;'>Ask Gemini about the plants you discovered, and more!</h1>", unsafe_allow_html=True)
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):

@@ -9,6 +9,10 @@ from pymongo.server_api import ServerApi
 import pymongo
 from streamlit_extras.switch_page_button import switch_page
 
+# Load external CSS file
+with open("assets/otherstyles.css") as css_file:
+    st.markdown(f"<style>{css_file.read()}</style>", unsafe_allow_html=True)
+
 #change navbar - this must be in every page but login.py and register.py
 st.markdown(
     """
@@ -71,8 +75,11 @@ def identify_plant(image_path):
         if os.path.exists(image_path):
             os.remove(image_path)
 
+# Title
+st.markdown("<div class='main-header'>Find a Plant</div>", unsafe_allow_html=True)
+
 #uploads image
-st.markdown("<h1 style='text-align: center; color: black;'>Upload image</h1>", unsafe_allow_html=True)
+st.subheader("Upload Image")
 uploaded_image = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 #make temporary directory
@@ -104,7 +111,7 @@ def print_plant_info(name):
     user_plants = get_user_plants(user)
     plant_data = next((plant for plant in plant_list if plant["Plant"] == name), None)
 
-    st.subheader(name.replace("-", " "))
+    st.markdown(name.replace("-", " "), unsafe_html_allow=True)
     
     if plant_data:
         st.write(f"**Conservation Status:** {plant_data['Conservation status']}")

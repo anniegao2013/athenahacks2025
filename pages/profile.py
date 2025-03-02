@@ -3,6 +3,10 @@ from pymongo.server_api import ServerApi
 import pymongo
 from streamlit_extras.switch_page_button import switch_page
 
+# Load external CSS file
+with open("assets/otherstyles.css") as css_file:
+    st.markdown(f"<style>{css_file.read()}</style>", unsafe_allow_html=True)
+
 #change navbar - this must be in every page but login.py and register.py
 st.markdown(
     """
@@ -53,7 +57,7 @@ def print_plant_info(name):
 user = st.session_state['username']
 user_data = get_user_data(user)
 
-st.title("Profile")
+st.markdown("<div class='main-header'>Profile</div>", unsafe_allow_html=True)
 
 st.subheader("Account Information")
 st.write(f"**Username:** {user_data['username']}")
