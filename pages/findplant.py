@@ -29,7 +29,7 @@ def identify_plant(image_path):
             else:
                 species_info = json_result["results"][0].get("species", {})
                 name = species_info.get("commonNames", "No common names found")[0]
-                st.write("Your plant is a", name)
+                return name
     finally:
         if os.path.exists(image_path):
             os.remove(image_path)
@@ -46,10 +46,26 @@ if not os.path.exists(TEMP_DIR):
 def save_image_to_temp(image, temp_dir=TEMP_DIR):
     temp_file = tempfile.NamedTemporaryFile(delete=False, dir=temp_dir, suffix=".jpg")
     image.save(temp_file, format="JPEG")
+    temp_file.close()
     return temp_file.name
+
+def print_plant_info(name):
+    plants = ("bush allamanda", "mexican-sunflower", "broadleaf harebell", "lily-of-the-valley", "hydrangea")
+    conservation = ("secure", "secure", "imperiled", "apparently secure", "secure")
+    use = ("treating infections, fevers, and skin conditions", "treating wounds, skin infections, and respiratory issues", "treating earaches, sore eyes, and spider bites", "headache and earache relief", "anti-inflammatory and anti-oxidant effects")
+    language = ("happiness and positivity", "loyalty, adoration, and longevity", "love and constancy", "humility, purity, and the return of happiness", "gratitude and renewal")
+    index = plants.index(name) if name in plants else -1
+    if index == -1:
+        st.write("Sorry! No information available at this time")
+    else:
+        st.write("Conservation status:", conservation[index])
+        st.write("Medicinal use:", use[index])
+        st.write("Flower language:", language[index])
 
 if uploaded_image is not None:
     image = Image.open(uploaded_image)
     st.image(image, caption="Uploaded Image.", use_container_width=True)
     temp_image_path = save_image_to_temp(image)
-    identify_plant(temp_image_path)
+    plant_name = identify_plant(temp_image_path).lower()
+    st.write("Your plant is a", plant_name)
+    print_plant_info(plant_name)
