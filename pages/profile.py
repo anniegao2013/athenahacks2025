@@ -3,6 +3,21 @@ from pymongo.server_api import ServerApi
 import pymongo
 from streamlit_extras.switch_page_button import switch_page
 
+#change navbar - this must be in every page but login.py and register.py
+st.markdown(
+    """
+    <style>
+        a[href="http://localhost:8501/login"] {
+            display: none;
+        }
+        a[href="http://localhost:8501/register"] {
+            display: none;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Initialize connection.
 # Uses st.cache_resource to only run once.
 @st.cache_resource

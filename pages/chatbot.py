@@ -2,6 +2,21 @@ import streamlit as st
 import google.generativeai as genai
 import os
 
+#change navbar - this must be in every page but login.py and register.py
+st.markdown(
+    """
+    <style>
+        a[href="http://localhost:8501/login"] {
+            display: none;
+        }
+        a[href="http://localhost:8501/register"] {
+            display: none;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 GOOGLE_API_KEY = "AIzaSyCeLzlhglcW8HeGvtDaczMsTETdcZFHruM"
 genai.configure(api_key=GOOGLE_API_KEY)
 

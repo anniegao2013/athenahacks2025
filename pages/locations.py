@@ -1,6 +1,21 @@
 import streamlit as st
 import pydeck as pdk
 
+#change navbar - this must be in every page but login.py and register.py
+st.markdown(
+    """
+    <style>
+        a[href="http://localhost:8501/login"] {
+            display: none;
+        }
+        a[href="http://localhost:8501/register"] {
+            display: none;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 plant_ranges = {
      "Bush allamanda": [(-26.55, -46.63), (-34.61, -58.38), (-27.48, -58.83)],
      "Mexican-sunflower": [(7.36, -81.97), (14.94, -86.9), (18.31, -98.86), (25.8, -104.84)],
