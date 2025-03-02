@@ -71,23 +71,58 @@ def save_image_to_temp(image, temp_dir=TEMP_DIR):
     temp_file.close()
     return temp_file.name
 
+# Print plant info
+
+def get_user_plants(username):
+    db = client['plant_go'].get_collection('user_info')
+    user_data = db.find_one({"username": username})  # Find a specific user by username
+    if user_data:
+        return user_data.get('plants', {})
+    return {}
+
+def get_all_plants():
+    db = client['plant_go'].get_collection('plant_info')
+    return list(db.find({}, {"_id": 0}))
+
 def print_plant_info(name):
-    plants = ("bush allamanda", "mexican sunflower", "broadleaf harebell", "lily of the valley", "hydrangea")
-    conservation = ("secure", "secure", "imperiled", "apparently secure", "secure")
-    use = ("treating infections, fevers, and skin conditions", "treating wounds, skin infections, and respiratory issues", "treating earaches, sore eyes, and spider bites", "headache and earache relief", "anti-inflammatory and anti-oxidant effects")
-    language = ("happiness and positivity", "loyalty, adoration, and longevity", "love and constancy", "humility, purity, and the return of happiness", "gratitude and renewal")
-    index = plants.index(name) if name in plants else -1
-    if index == -1:
-        st.write("Sorry! No information available at this time")
+    plant_list = get_all_plants()
+    user_plants = get_user_plants(user)
+    plant_data = next((plant for plant in plant_list if plant["Plant"] == name), None)
+
+    st.subheader(name.replace("-", " "))
+    
+    if plant_data:
+        st.write(f"**Conservation Status:** {plant_data['Conservation status']}")
+        st.write(f"**Medicinal Usage:** {plant_data['Medicinal usage']}")
+        st.write(f"**Victorian Flower Language:** {plant_data['Victorian flower language']}")
+        found_count = user_plants.get(name, 0)
+        st.write(f"**Times Found:** {found_count}")
     else:
-        st.write("Conservation status:", conservation[index])
-        st.write("Medicinal use:", use[index])
-        st.write("Flower language:", language[index])
+        st.write("Sorry! No information right now.")
+
+# Update Plant Info
+def update_plant_info(name):
+    db = client['plant_go'].get_collection('user_info')
+    user_plants = get_user_plants(user)
+    new_found_count = user_plants.get(name, 0) + 1
+    #user_data = db.find_one({"username": user})  # Find a specific user by username
+    query_filter = {"username": user}
+    update_operation = {'$set' :
+                            {f"plants.{name}": new_found_count}
+                        }
+    db.update_one(query_filter, update_operation)
+    return
+
+# Actual code for the page
+
+user = st.session_state['username']
 
 if uploaded_image is not None:
     image = Image.open(uploaded_image)
     st.image(image, caption="Uploaded Image.", use_container_width=True)
     temp_image_path = save_image_to_temp(image)
-    plant_name = identify_plant(temp_image_path).lower().replace("-", " ")
-    st.write("Your plant is a", plant_name)
+    plant_name = identify_plant(temp_image_path)
+    #plant_name = identify_plant(temp_image_path).lower().replace("-", " ")
+    #st.write(plant_name)
+    update_plant_info(plant_name)
     print_plant_info(plant_name)

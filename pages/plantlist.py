@@ -13,28 +13,61 @@ client = init_connection()
 
 # Pull data from the collection.
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.cache_data(ttl=600)
+# @st.cache_data(ttl=600)
 def get_data():
     db = client['plant_go'].get_collection('user_info')
     items = list(db.find())
     return items
 
 # Pull data from the collection.
-@st.cache_data(ttl=600)
 def get_user_plants(username):
     db = client['plant_go'].get_collection('user_info')
     user_data = db.find_one({"username": username})  # Find a specific user by username
     if user_data:
-        return user_data.get('plants', [])
-    return []
+        return user_data.get('plants', {})
+    return {}
 
-user = st.session_state['username']
+def get_all_plants():
+    db = client['plant_go'].get_collection('plant_info')
+    return list(db.find({}, {"_id": 0}))
 
-@st.cache_data(ttl=600)
-def print_plants():
+# Print functions
+
+def print_user_plants():
     user_plants = get_user_plants(user)
     for plant in user_plants:
         st.markdown(plant)
     return
 
-print_plants()
+def print_all_plants():
+    db = client['plant_go'].get_collection('plant_info')
+    return
+
+# Print plant info
+def print_plant_info(name):
+    plant_list = get_all_plants()
+    user_plants = get_user_plants(user)
+    plant_data = next((plant for plant in plant_list if plant["Plant"] == name), None)
+
+    st.subheader(name.replace("-", " "))
+    
+    if plant_data:
+        st.write(f"**Conservation Status:** {plant_data['Conservation status']}")
+        st.write(f"**Medicinal Usage:** {plant_data['Medicinal usage']}")
+        st.write(f"**Victorian Flower Language:** {plant_data['Victorian flower language']}")
+        found_count = user_plants.get(name, 0)
+        st.write(f"**Times Found:** {found_count}")
+    else:
+        st.write("Sorry! No information right now.")
+
+user = st.session_state['username']
+
+st.title("Plant Collection")
+
+user_plants = get_user_plants(user)
+plant_list = get_all_plants()
+
+selected_plant = st.selectbox("Select a plant to view details:", [plant["Plant"] for plant in plant_list])
+
+if selected_plant:
+    print_plant_info(selected_plant)
