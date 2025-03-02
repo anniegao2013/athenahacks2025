@@ -1,6 +1,7 @@
 import streamlit as st
 from pymongo.server_api import ServerApi
 import pymongo
+from streamlit_extras.switch_page_button import switch_page
 
 # Initialize connection.
 # Uses st.cache_resource to only run once.
@@ -64,14 +65,16 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown("<div class='main-header'>Welcome to PlantGo! </div>", unsafe_allow_html=True)
+st.markdown("<div class='main-header'>PlantGo </div>", unsafe_allow_html=True)
 st.markdown("<div>Hello info here</div>", unsafe_allow_html=True)
 st.markdown("<div class='login-container>", unsafe_allow_html=True)
 st.subheader("Login")
+st.markdown("Don't have an account? Register", unsafe_allow_html=True)
 username = st.text_input("Username")
 password = st.text_input("Password", type="password")
 login = st.button("Login")
 
+userExists = False
 loginValid = False
 
 if login:
@@ -83,10 +86,15 @@ if login:
     #         loginValid=True
     #         break
     items = get_data()
+    userExists = any(item.get('username') == username for item in items)
     loginValid = any(item.get('username') == username and item.get('password') == password for item in items)
 
     if loginValid:
         st.success("Login successful! Welcome, " + username + "!")
+        st.session_state['username'] = username
+        switch_page("findplant")
+    elif not userExists:
+        st.error("User does not exist. Please make an account or try again.")
     else:
         st.error("Invalid username or password. Please try again.")
 
