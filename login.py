@@ -3,6 +3,8 @@ from pymongo.server_api import ServerApi
 import pymongo
 from streamlit_extras.switch_page_button import switch_page
 
+st.set_page_config(initial_sidebar_state="collapsed")
+
 # Initialize connection.
 # Uses st.cache_resource to only run once.
 @st.cache_resource
@@ -29,8 +31,6 @@ def get_data():
 #    st.write(f"User: {item.get('username', 'N/A')} | Password: {item.get('password', 'N/A')}")
 
 # Style
-
-st.set_page_config(initial_sidebar_state="collapsed")
 
 st.markdown(
     """
@@ -84,7 +84,7 @@ st.markdown("<div class='login-container>", unsafe_allow_html=True)
 username = st.text_input("Username")
 password = st.text_input("Password", type="password")
 login = st.button("Login")
-register = st.markdown("<p class='register-link'>Don't have an account? <a href=/register>Sign up</a></p>", unsafe_allow_html=True)
+register = st.markdown("<p class='register-link'>Don't have an account? <a href=/register target='_self'>Sign up</a></p>", unsafe_allow_html=True)
 st.markdown("</div></div>", unsafe_allow_html=True)
 
 userExists = False
