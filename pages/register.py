@@ -31,9 +31,14 @@ def add_user(username, password):
     })
     return
 
+st.set_page_config(initial_sidebar_state="collapsed")
+
 st.markdown(
     """
     <style>
+        [data-testid="stBaseButton-headerNoPadding"] {
+            display: none
+        }
         body {
             background-color: white;
         }

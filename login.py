@@ -28,9 +28,16 @@ def get_data():
 #for item in items:
 #    st.write(f"User: {item.get('username', 'N/A')} | Password: {item.get('password', 'N/A')}")
 
+# Style
+
+st.set_page_config(initial_sidebar_state="collapsed")
+
 st.markdown(
     """
     <style>
+        [data-testid="stBaseButton-headerNoPadding"] {
+            display: none
+        }
         body {
             background-color: white;
         }
@@ -77,7 +84,7 @@ st.markdown("<div class='login-container>", unsafe_allow_html=True)
 username = st.text_input("Username")
 password = st.text_input("Password", type="password")
 login = st.button("Login")
-st.markdown("<p class='register-link'>Don't have an account? <a href=/register>Sign up</a></p>", unsafe_allow_html=True)
+register = st.markdown("<p class='register-link'>Don't have an account? <a href=/register>Sign up</a></p>", unsafe_allow_html=True)
 st.markdown("</div></div>", unsafe_allow_html=True)
 
 userExists = False
@@ -105,3 +112,6 @@ if login:
         st.error("Invalid username or password. Please try again.")
 
     # st.markdown("</div>", unsafe_allow_html=True)
+
+# if register:
+#     switch_page("register")
