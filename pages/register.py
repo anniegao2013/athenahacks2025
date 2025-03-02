@@ -25,9 +25,7 @@ def add_user(username, password):
     db.insert_one({
         "username":username,
         "password":password,
-        "points":0,
-        "plants":{"Broadleaf harebell":0,"Bush allamanda":0,"Hydrangea":0,"Lily-of-the-valley":0,"Mexican-Sunflower":0},
-        "garden":{"Broadleaf harebell":0,"Bush allamanda":0,"Hydrangea":0,"Lily-of-the-valley":0,"Mexican-Sunflower":0}
+        "plants":{"Broadleaf harebell":0,"Bush allamanda":0,"Hydrangea":0,"Lily-of-the-valley":0,"Mexican-Sunflower":0}
     })
     return
 
