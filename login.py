@@ -35,9 +35,8 @@ st.markdown(
             background-color: white;
         }
         .main-header {
-            text-align: center;
+            text-align: left;
             color: black;
-            padding: 20px;
             font-size: 40px;
             font-weight: bold;
             border-radius: 10px;
@@ -60,19 +59,26 @@ st.markdown(
             border-radius: 5px;
             padding: 10px;
         }
+        .register-link {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .register-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-st.markdown("<div class='main-header'>PlantGo </div>", unsafe_allow_html=True)
-st.markdown("<div>Hello info here</div>", unsafe_allow_html=True)
+st.markdown("<div class='main-header'>Welcome to PlantGo </div>", unsafe_allow_html=True)
 st.markdown("<div class='login-container>", unsafe_allow_html=True)
-st.subheader("Login")
-st.markdown("Don't have an account? Register", unsafe_allow_html=True)
 username = st.text_input("Username")
 password = st.text_input("Password", type="password")
 login = st.button("Login")
+st.markdown("<p class='register-link'>Don't have an account? <a href=/register>Sign up</a></p>", unsafe_allow_html=True)
+st.markdown("</div></div>", unsafe_allow_html=True)
 
 userExists = False
 loginValid = False
@@ -98,4 +104,4 @@ if login:
     else:
         st.error("Invalid username or password. Please try again.")
 
-    st.markdown("</div>", unsafe_allow_html=True)
+    # st.markdown("</div>", unsafe_allow_html=True)
