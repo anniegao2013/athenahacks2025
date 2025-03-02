@@ -4,10 +4,32 @@ import os
 import tempfile
 import requests
 import json
+# MongoDB imports
+from pymongo.server_api import ServerApi
+import pymongo
+from streamlit_extras.switch_page_button import switch_page
 
 API_KEY = "2b104yodLOKaoU2uasSjUWIatu"
 PROJECT = "all"
 api_endpoint = f"https://my-api.plantnet.org/v2/identify/{PROJECT}?api-key={API_KEY}"
+
+# MongoDB Functions
+
+# Initialize connection.
+# Uses st.cache_resource to only run once.
+@st.cache_resource
+def init_connection():
+    return pymongo.MongoClient(st.secrets["mongo"]["uri"], server_api=ServerApi('1'))
+
+client = init_connection()
+
+# Pull data from the collection.
+# Uses st.cache_data to only rerun when the query changes or after 10 min.
+@st.cache_data(ttl=600)
+def get_data():
+    db = client['plant_go'].get_collection('user_info')
+    items = list(db.find())
+    return items
 
 #function to use api
 def identify_plant(image_path):
@@ -50,7 +72,7 @@ def save_image_to_temp(image, temp_dir=TEMP_DIR):
     return temp_file.name
 
 def print_plant_info(name):
-    plants = ("bush allamanda", "mexican-sunflower", "broadleaf harebell", "lily-of-the-valley", "hydrangea")
+    plants = ("bush allamanda", "mexican sunflower", "broadleaf harebell", "lily of the valley", "hydrangea")
     conservation = ("secure", "secure", "imperiled", "apparently secure", "secure")
     use = ("treating infections, fevers, and skin conditions", "treating wounds, skin infections, and respiratory issues", "treating earaches, sore eyes, and spider bites", "headache and earache relief", "anti-inflammatory and anti-oxidant effects")
     language = ("happiness and positivity", "loyalty, adoration, and longevity", "love and constancy", "humility, purity, and the return of happiness", "gratitude and renewal")
@@ -66,6 +88,6 @@ if uploaded_image is not None:
     image = Image.open(uploaded_image)
     st.image(image, caption="Uploaded Image.", use_container_width=True)
     temp_image_path = save_image_to_temp(image)
-    plant_name = identify_plant(temp_image_path).lower()
+    plant_name = identify_plant(temp_image_path).lower().replace("-", " ")
     st.write("Your plant is a", plant_name)
     print_plant_info(plant_name)
