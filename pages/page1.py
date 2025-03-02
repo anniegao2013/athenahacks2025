@@ -11,23 +11,28 @@ api_endpoint = f"https://my-api.plantnet.org/v2/identify/{PROJECT}?api-key={API_
 
 #function to use api
 def identify_plant(image_path):
-    with open(image_path, 'rb') as image_file:
-        files = [
-            ('images', (image_path, image_file)),
-        ]
-        data = {
-            'organs': ['flower'],  # Specify the organs you want to identify (leaf, flower, etc.)
-        }
-        req = requests.Request('Post', url=api_endpoint, files=files, data=data)
-        prepared = req.prepare()
-        s = requests.Session()
-        response = s.send(prepared)
-        json_result = json.loads(response.text)
-        if response.status_code != 200:
-            st.write("Sorry! Result unavailable")
-        else:
-            best_match = json_result.get("bestMatch", "No best match found.")
-            st.write("Your plant is", best_match)
+    try:
+        with open(image_path, 'rb') as image_file:
+            files = [
+                ('images', (image_path, image_file)),
+            ]
+            data = {
+                'organs': ['flower'],  # Specify the organs you want to identify (leaf, flower, etc.)
+            }
+            req = requests.Request('Post', url=api_endpoint, files=files, data=data)
+            prepared = req.prepare()
+            s = requests.Session()
+            response = s.send(prepared)
+            json_result = json.loads(response.text)
+            if response.status_code != 200:
+                st.write("Sorry! Result unavailable")
+            else:
+                species_info = json_result["results"][0].get("species", {})
+                name = species_info.get("commonNames", "No common names found")[0]
+                st.write("Your plant is a", name)
+    finally:
+        if os.path.exists(image_path):
+            os.remove(image_path)
 
 #uploads image
 st.markdown("<h1 style='text-align: center; color: black;'>Upload image</h1>", unsafe_allow_html=True)
