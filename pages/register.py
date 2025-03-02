@@ -77,6 +77,6 @@ if login:
         add_user(username, password)
         st.success("Register successful! Welcome, " + username + "!")
         st.session_state['username'] = username
-        switch_page("findplant")
+        switch_page("Find")
 
     # st.markdown("</div>", unsafe_allow_html=True)

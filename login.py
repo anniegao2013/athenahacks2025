@@ -59,7 +59,7 @@ if login:
     if loginValid:
         st.success("Login successful! Welcome, " + username + "!")
         st.session_state['username'] = username
-        switch_page("findplant")
+        switch_page("Find")
     elif not userExists:
         st.error("User does not exist. Please make an account or try again.")
     else:
