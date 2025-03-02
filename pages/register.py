@@ -52,11 +52,12 @@ with open("assets/styles.css") as css_file:
     st.markdown(f"<style>{css_file.read()}</style>", unsafe_allow_html=True)
 
 st.markdown("<div class='main-header'>Register</div>", unsafe_allow_html=True)
-st.markdown("<div class='login-container>", unsafe_allow_html=True)
-username = st.text_input("Username")
-password = st.text_input("Password", type="password")
-login = st.button("Register")
-st.markdown("</div></div>", unsafe_allow_html=True)
+with st.container(key="login-container"):
+    st.markdown("<div class='login-container>", unsafe_allow_html=True)
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    login = st.button("Register")
+    st.markdown("</div></div>", unsafe_allow_html=True)
 
 userExists = False
 loginValid = False
